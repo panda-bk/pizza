@@ -20,8 +20,13 @@ Route::group(['prefix' => 'sizer'], function()
     });
     Route::group(['prefix' => 'flavor'], function()
     {
-        Route::get('','FlavorsController@listFlavors');
+        Route::get('','FlavorsController@list');
     });
     Route::group(['prefix' => 'order'], function(){
         Route::post('save','OrdersController@store');
+        Route::get('{id}','OrdersController@getOrder');
+        Route::post('/{id}/additional','OrdersController@additional');
+    }); 
+        Route::group(['prefix' => 'additional'], function(){
+        Route::get('','AdditionalsController@list');
     }); 

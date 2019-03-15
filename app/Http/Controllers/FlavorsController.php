@@ -7,7 +7,7 @@ use \App\Flavor;
 
 class FlavorsController extends Controller
 {
-    public function listFlavors(){
+    public function list(){
         $flavor = Flavor::all();
         return response()->json($flavor);
     }

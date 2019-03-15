@@ -9,6 +9,10 @@ use App\Flavor;
 class Order extends Model
 {
     protected $fillable = ['size', 'flavor', 'preparation_time', 'total_pay'];
+    public function Additional()
+    {
+        return $this->belongsToMany(Additional::class);        
+    }
 
     public static function store($request){
         $sizer = Sizer::getSizer($request->size);
