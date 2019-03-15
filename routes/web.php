@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+    Route::group(['prefix' => 'sizer'], function()
+    {
+       // Route::get('','SizersController@list');
+        Route::get('/edit/{id}','SizersController@edit');
+    });
+    Route::group(['prefix' => 'flavor'], function()
+    {
+        Route::get('','FlavorsController@listFlavors');
+    });
+    Route::group(['prefix' => 'order'], function(){
+        Route::post('save','OrdersController@store');
+    }); 
