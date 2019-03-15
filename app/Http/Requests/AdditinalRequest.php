@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class AdditinalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'size' => 'required|exists:sizers,id',
-            'flavor' => 'required|exists:flavors,id'
-            
+            'additional_id' => 'required|exists:additionals,id'
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
+use App\Http\Requests\AdditinalRequest;
 use \App\Order;
 use \App\Additional;
 
@@ -19,7 +20,7 @@ class OrdersController extends Controller
         $order = Order::find($id);
         return $order;
     }
-    public function additional($id, Request $request){
+    public function additional(AdditinalRequest $request, $id){
         $order = Order::find($id);
         $additional = Additional::find($request->additional_id);
         $order->Additional()->attach($additional);
