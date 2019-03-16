@@ -7,12 +7,13 @@ use \App\Sizer;
 
 class SizersController extends Controller
 {
-    public function list(){
-        $sizer = Sizer::all();
-        return response()->json($sizer);
+    private $sizers;
+    public function __construct(Sizer $sizers){        
+        $this->sizers = $sizers;
     }
-    public function edit($id){
-        return "Yahoo";
+    public function list(){ 
+        $sizer = $this->sizers->getAll();
+        return response()->json($sizer);
     }
     
 }

@@ -6,31 +6,34 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\AdditinalRequest;
 use \App\Order;
+use \App\Sizer;
+use \App\Flavor;
 use \App\Additional;
 
 class OrdersController extends Controller
 {
+    private $orders;
+    private $sizers;
+    Private $flavors;
+    public function __construct(Order $orders, Sizer $sizers, Flavor $flavors){        
+        $this->orders = $orders;
+        $this->sizers = $sizers;
+        $this->flavors = $flavors;
+    }
     
-    public function store(OrderRequest $request)
-    {
-        $order = Order::store($request);
+    public function store(OrderRequest $request){
+        $sizer = $this->sizers->getSizer($request->size);
+        $flavor = $this->flavors->getFlavor($request->flavor);
+        $order = $this->orders->getStore($request, $sizer, $flavor);
+        
         return response()->json($order, 201);
     }
     public function getOrder($id){
-        $order = Order::find($id);
+        $order = $this->orders->getOrder($id);
         return $order;
     }
     public function additional(AdditinalRequest $request, $id){
-        $order = Order::find($id);
-        $additional = Additional::find($request->additional_id);
-        $order->Additional()->attach($additional);
-
-        $r = Order::with('additional')->get()->find($id);
-        $order->total_pay = $order->total_pay + $additional->value;
-        $order->preparation_time = $order->preparation_time + $additional->additional_time;
-        $order->save();
-
-        return response()->json($r, 201);
-
+        $additional = $this->orders->storeAdditional($id, $request);
+        return response()->json($additional, 201);
     }
 }

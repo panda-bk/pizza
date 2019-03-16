@@ -13,20 +13,18 @@ use Illuminate\Http\Request;
 |
 */ 
 
-Route::group(['prefix' => 'sizer'], function()
-    {
-        Route::get('','SizersController@list');
-        Route::get('/edit/{id}','SizersController@edit');
-    });
-    Route::group(['prefix' => 'flavor'], function()
-    {
-        Route::get('','FlavorsController@list');
-    });
-    Route::group(['prefix' => 'order'], function(){
-        Route::post('save','OrdersController@store');
-        Route::get('{id}','OrdersController@getOrder');
-        Route::post('/{id}/additional','OrdersController@additional');
-    }); 
-        Route::group(['prefix' => 'additional'], function(){
-        Route::get('','AdditionalsController@list');
-    }); 
+Route::group(['prefix' => 'sizer'], function(){
+    Route::get('','SizersController@list');
+});
+
+Route::group(['prefix' => 'flavor'], function(){
+    Route::get('','FlavorsController@list');
+});
+Route::group(['prefix' => 'order'], function(){
+    Route::post('save','OrdersController@store');
+    Route::get('{id}','OrdersController@getOrder');
+    Route::post('/{id}/additional','OrdersController@additional');
+}); 
+Route::group(['prefix' => 'additional'], function(){
+    Route::get('','AdditionalsController@list');
+}); 

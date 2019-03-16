@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Sizer;
 use App\Flavor;
+use App\Additional;
 
 class Order extends Model
 {
@@ -14,9 +15,7 @@ class Order extends Model
         return $this->belongsToMany(Additional::class);        
     }
 
-    public static function store($request){
-        $sizer = Sizer::getSizer($request->size);
-        $flavor = Flavor::getFlavor($request->flavor);
+    public function getStore($request, $sizer, $flavor){
         $additional_time = $flavor->additional_time;
         $size = $request->description;     
         $preparation_time = $sizer->preparation_time;
@@ -30,10 +29,21 @@ class Order extends Model
         $order->preparation_time=$total_time;
         $order->total_pay=$total_pay;
         $order->save();
+        return $order;
+    }
+    public function storeAdditional($id, $request){
 
-        
-       // $order = self::create($request->all());
-       
+        $order = self::find($id);        
+        $additional = Additional::find($request->additional_id);
+        $order->total_pay = $order->total_pay + $additional->value;
+        $order->preparation_time = $order->preparation_time + $additional->additional_time;
+        $order->Additional()->attach($additional);  
+        $order->save();
+        $getAddition = self::with('additional')->get()->find($id); 
+        return response()->json($getAddition, 201);
+    }
+    public function getOrder($id){
+        $order = self::find($id);
         return $order;
     }
 }

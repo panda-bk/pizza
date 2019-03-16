@@ -10,4 +10,8 @@ class Additional extends Model
     {
         return $this->belongsToMany(Order::class);        
     }
+    public function getAll(){        
+        $additional = self::all();
+        return $additional;
+    }
 }

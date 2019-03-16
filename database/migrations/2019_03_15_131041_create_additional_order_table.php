@@ -19,6 +19,7 @@ class CreateAdditionalOrderTable extends Migration
             $table->foreign('additional_id')->references('id')->on('additionals');
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
+            $table->unique(['order_id','additional_id']);
             $table->timestamps();
         });
     }
